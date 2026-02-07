@@ -1,81 +1,77 @@
 <template>
-  <div class="carousel-wrapper">
+  <div class="carousel-container">
     <swiper
-      :modules="modules"
-      :effect="'coverflow'"
+      effect="cards"
       :grab-cursor="true"
-      :centered-slides="true"
-      :slides-per-view="'auto'"
-      :coverflow-effect="{
-        rotate: 50,       /* 旋轉角度 */
-        stretch: 0,       /* 拉伸距離 */
-        depth: 100,       /* 景深 (越大越有立體感) */
-        modifier: 1,      /* 特效倍率 */
-        slideShadows: true /* 是否開啟陰影 */
-      }"
-      :pagination="{ clickable: true }"
-      :autoplay="{ delay: 2500, disableOnInteraction: false }"
+      :modules="modules"
       class="mySwiper"
     >
       <swiper-slide v-for="(img, index) in images" :key="index">
-        <img :src="img" />
+        <img :src="img" :alt="'Slide ' + (index + 1)" />
+        <div class="slide-number">{{ index + 1 }}</div>
       </swiper-slide>
     </swiper>
   </div>
 </template>
 
-<script>
+<script setup>
+// 1. 引入核心組件
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
-// ✨ 1. 引入 EffectCoverflow 模組
-import { Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
+// 2. 引入 Cards 模組 (這是關鍵！)
+import { EffectCards } from 'swiper/modules';
 
+// 3. 引入必要的 CSS
 import 'swiper/css';
-import 'swiper/css/pagination';
-// ✨ 2. 記得引入特效的 CSS
-import 'swiper/css/effect-coverflow';
+import 'swiper/css/effect-cards'; // 👈 這行一定要有，不然卡片會亂飛
 
-export default {
-  components: { Swiper, SwiperSlide },
-  setup() {
-    const images = [
-      'https://picsum.photos/id/101/600/800', // 建議找直式或方形圖效果更好
-      'https://picsum.photos/id/102/600/800',
-      'https://picsum.photos/id/103/600/800',
-      'https://picsum.photos/id/104/600/800',
-      'https://picsum.photos/id/105/600/800',
-    ];
+// 圖片資料
+const images = [
+  'https://picsum.photos/id/10/600/800',
+  'https://picsum.photos/id/20/600/800',
+  'https://picsum.photos/id/30/600/800',
+  'https://picsum.photos/id/40/600/800',
+  'https://picsum.photos/id/50/600/800',
+];
 
-    return {
-      images,
-      // ✨ 3. 將 EffectCoverflow 加入模組清單
-      modules: [Pagination, Autoplay, EffectCoverflow],
-    };
-  },
-};
+// 設定使用的模組
+const modules = [EffectCards];
 </script>
 
 <style scoped>
-.carousel-wrapper {
-  width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  background: #eee; /* 加個背景色讓陰影更明顯 */
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 讓輪播垂直置中 */
+  background-color: #f3f3f3; /* 淺灰背景讓白色卡片更明顯 */
+  overflow: hidden;
 }
 
+/* ⚠️ 關鍵設定：Cards 特效的 Swiper 必須有固定寬度 */
 .swiper {
-  width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  width: 280px;  /* 手機版寬度 */
+  height: 420px;
+}
+
+/* 針對平板 (iPad) 調整尺寸，讓它更大張 */
+@media (min-width: 768px) {
+  .swiper {
+    width: 500px;
+    height: 700px;
+  }
 }
 
 .swiper-slide {
-  background-position: center;
-  background-size: cover;
-  width: 300px; /* ✨ 設定固定寬度，讓左右兩邊露出來 */
-  height: 400px;
-  border-radius: 15px; /* 圓角看起來更像卡片 */
-  overflow: hidden;    /* 確保圖片不超出圓角 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px; /* 圓角 */
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #fff;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12); /* 加點陰影增加立體感 */
 }
 
 .swiper-slide img {
@@ -83,5 +79,17 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 18px;
+}
+
+.slide-number {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
 }
 </style>
