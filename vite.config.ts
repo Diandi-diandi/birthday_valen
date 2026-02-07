@@ -15,4 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+      host: '0.0.0.0', // 允許區域網路存取
+      allowedHosts: true
+    }
 })
