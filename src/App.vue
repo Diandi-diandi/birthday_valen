@@ -5,14 +5,14 @@
     </header>
 
     <main>
-      <ImageCarousel />
+      <BirthdayCard />
     </main>
   </div>
 </template>
 
 <script setup>
 // 引入你的輪播組件
-import ImageCarousel from './components/ImageCarousel.vue'
+import BirthdayCard from './components/BirthdayCard.vue'
 </script>
 
 <style>
