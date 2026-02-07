@@ -1,76 +1,87 @@
 <template>
-  <div class="carousel-container">
+  <div class="carousel-wrapper">
     <swiper
       :modules="modules"
-      :slides-per-view="1"
-      :space-between="10"
+      :effect="'coverflow'"
+      :grab-cursor="true"
+      :centered-slides="true"
+      :slides-per-view="'auto'"
+      :coverflow-effect="{
+        rotate: 50,       /* 旋轉角度 */
+        stretch: 0,       /* 拉伸距離 */
+        depth: 100,       /* 景深 (越大越有立體感) */
+        modifier: 1,      /* 特效倍率 */
+        slideShadows: true /* 是否開啟陰影 */
+      }"
       :pagination="{ clickable: true }"
-      :navigation="true"
-      :loop="true"
+      :autoplay="{ delay: 2500, disableOnInteraction: false }"
       class="mySwiper"
     >
       <swiper-slide v-for="(img, index) in images" :key="index">
-        <img :src="img" :alt="'Slide ' + (index + 1)" />
+        <img :src="img" />
       </swiper-slide>
     </swiper>
   </div>
 </template>
 
 <script>
-// 引入 Swiper Vue 組件
 import { Swiper, SwiperSlide } from 'swiper/vue';
-// 引入 Swiper 核心樣式與模組樣式
+
+// ✨ 1. 引入 EffectCoverflow 模組
+import { Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-
-// 引入需要的功能模組
-import { Pagination, Navigation } from 'swiper/modules';
+// ✨ 2. 記得引入特效的 CSS
+import 'swiper/css/effect-coverflow';
 
 export default {
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
+  components: { Swiper, SwiperSlide },
   setup() {
-    // 這裡放置圖片網址，建議使用適合平板比例的圖片
     const images = [
-      'https://picsum.photos/id/10/1200/800',
-      'https://picsum.photos/id/20/1200/800',
-      'https://picsum.photos/id/30/1200/800',
+      'https://picsum.photos/id/101/600/800', // 建議找直式或方形圖效果更好
+      'https://picsum.photos/id/102/600/800',
+      'https://picsum.photos/id/103/600/800',
+      'https://picsum.photos/id/104/600/800',
+      'https://picsum.photos/id/105/600/800',
     ];
 
     return {
       images,
-      modules: [Pagination, Navigation],
+      // ✨ 3. 將 EffectCoverflow 加入模組清單
+      modules: [Pagination, Autoplay, EffectCoverflow],
     };
   },
 };
 </script>
 
 <style scoped>
-.carousel-container {
+.carousel-wrapper {
   width: 100%;
-  max-width: 1024px; /* 適合平板的寬度 */
-  margin: 0 auto;
-  height: 500px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background: #eee; /* 加個背景色讓陰影更明顯 */
 }
 
 .swiper {
   width: 100%;
-  height: 100%;
-  border-radius: 12px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-position: center;
+  background-size: cover;
+  width: 300px; /* ✨ 設定固定寬度，讓左右兩邊露出來 */
+  height: 400px;
+  border-radius: 15px; /* 圓角看起來更像卡片 */
+  overflow: hidden;    /* 確保圖片不超出圓角 */
 }
 
 .swiper-slide img {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 確保圖片填滿不變形 */
+  object-fit: cover;
 }
 </style>
