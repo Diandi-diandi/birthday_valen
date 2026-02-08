@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <header>
-      <h1>我的平板輪播展示</h1>
-    </header>
-
     <main>
       <BirthdayCard />
     </main>
@@ -16,22 +12,25 @@ import BirthdayCard from './components/BirthdayCard.vue'
 </script>
 
 <style>
-/* 全域樣式設定，確保平板滿版顯示 */
-body {
+/* 1. 清除所有元素的預設邊距 */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
 
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+/* 2. 強制 html, body 和 #app 佔滿整個螢幕 */
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 禁止出現捲軸 */
+  background-color: #d68c9f; /* 溫暖的背景色 */
 }
 
-header {
-  margin-bottom: 20px;
+/* 3. 確保 main 標籤也是滿版 */
+main {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 </style>
