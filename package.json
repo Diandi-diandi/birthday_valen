@@ -17,6 +17,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@vueuse/core": "^14.2.1",
+    "@vueuse/motion": "^3.0.3",
     "canvas-confetti": "^1.9.4",
     "pinia": "^3.0.4",
     "swiper": "^12.1.0",
